@@ -33,7 +33,7 @@ class HomeRepositoryImpl extends HomeRepository {
   }
   
   @override
-  Future<Either<Failure, void>> executeOrders() {
+  Future<Either<Failure, bool>> executeOrders() {
     return serviceLocator<OrdersLocalDataSource>().executeOrders();
   }
 }

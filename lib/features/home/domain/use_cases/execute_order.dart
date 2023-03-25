@@ -5,7 +5,7 @@ import '../../../../core/base/service_locator.dart';
 import '../repository/home_repository.dart';
 
 class ExecuteOrder {
-  Future<Either<Failure, void>> executeOrders() {
+  Future<Either<Failure, bool>> executeOrders() {
     return serviceLocator<HomeRepository>().executeOrders();
   }
 }

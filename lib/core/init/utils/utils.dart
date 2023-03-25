@@ -17,14 +17,13 @@ class Utils {
     final snackBar = SnackBar(
         duration: const Duration(seconds: 5),
         dismissDirection: DismissDirection.horizontal,
-        backgroundColor:
-            Get.isDarkMode ? Theme.of(context).cardTheme.color : Colors.white,
+        backgroundColor: Colors.white,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
         behavior: SnackBarBehavior.floating,
         margin: EdgeInsets.all(15.w),
         content: ConstrainedBox(
-          constraints: BoxConstraints(minHeight: 0.06.sh, maxHeight: 0.09.sh),
+          constraints: BoxConstraints(minHeight: 0.06.sh, maxHeight: 0.1.sh),
           child: Row(children: [
             Container(
               decoration: BoxDecoration(
@@ -36,25 +35,25 @@ class Utils {
                   borderRadius: BorderRadius.circular(5.r)),
               width: 0.02.sw,
             ),
-            0.05.sw.horizontalSpace,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: Styles.textStyles.f14Bold),
-                4.verticalSpace,
-                Expanded(
-                  child: Text(message, style: Styles.textStyles.f14SemiBold),
-                ),
-              ],
+            12.horizontalSpace,
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: Styles.textStyles.f14Bold),
+                  6.verticalSpace,
+                  Text(message, style: Styles.textStyles.f14SemiBold),
+                ],
+              ),
             ),
-            const Spacer(),
-            IconButton(
-                onPressed: () =>
-                    ScaffoldMessenger.of(context).hideCurrentSnackBar(),
-                icon: Icon(
-                  Icons.close,
-                  color: Get.isDarkMode ? Colors.white : Colors.black,
-                ))
+            GestureDetector(
+              onTap: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+              child: Icon(
+                Icons.close,
+                color: Get.isDarkMode ? Colors.white : Colors.black,
+              ),
+            )
           ]),
         ));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);

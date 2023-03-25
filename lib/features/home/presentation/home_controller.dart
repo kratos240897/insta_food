@@ -17,8 +17,12 @@ class HomeController extends BaseController {
   final RxList<Meal> meals = RxList.empty();
   final RxList<Meal> selectedMeals = RxList.empty();
   @override
-  void onReady() async {
+  void onReady() {
     super.onReady();
+    getMeals();
+  }
+
+  Future<void> getMeals() async {
     Utils().showLoading();
     if (await getIsInternetAvailable()) {
       serviceLocator<GetMealsFromServer>().getMealsFromServer().then((value) {
@@ -42,13 +46,12 @@ class HomeController extends BaseController {
   }
 
   Future<void> placeOrder() async {
-    final isInternetAvailable = await getIsInternetAvailable();
     Utils().showLoading();
+    final isInternetAvailable = await getIsInternetAvailable();
     final order = MealsOrder(
-      meals: selectedMeals,
-      createdAt: DateFormat('EEE MMM d yyyy').format(DateTime.now()),
-      isExecuted: isInternetAvailable ? true : false
-    );
+        meals: selectedMeals,
+        createdAt: DateFormat('EEE MMM d yyyy').format(DateTime.now()),
+        isExecuted: isInternetAvailable ? true : false);
     serviceLocator<AddOrder>().addOrder(order).then((value) {
       Utils().hideLoading();
       value.fold(
@@ -56,7 +59,7 @@ class HomeController extends BaseController {
               'Failure', f.message, SnackBarStatus.failure), (_) async {
         if (isInternetAvailable) {
           Utils().showSnackBar(
-              'Success', 'Order placed successfully', SnackBarStatus.info);
+              'Success', 'Order placed successfully', SnackBarStatus.success);
         } else {
           Utils().showSnackBar(
               'No internet',
@@ -65,5 +68,13 @@ class HomeController extends BaseController {
         }
       });
     });
+  }
+
+  @override
+  void onNetworkConnected() {
+    super.onNetworkConnected();
+    if (meals.isEmpty) {
+      getMeals();
+    }
   }
 }

@@ -44,9 +44,16 @@ abstract class BaseController extends GetxController with ConnectionAware {
     isNetworkAvailable.value = true;
     Utils().showSnackBar(
         'Internet Connection', 'Back Online', SnackBarStatus.success);
-    serviceLocator<ExecuteOrder>().executeOrders().then((value) => Utils()
-        .showSnackBar(
-            'Success', 'Pending orders executed', SnackBarStatus.info));
+    serviceLocator<ExecuteOrder>().executeOrders().then((value) => value.fold(
+            (f) => Utils().showSnackBar(
+                'Failed', f.message, SnackBarStatus.failure), (result) {
+          if (result) {
+            Future.delayed(
+                const Duration(seconds: 2),
+                () => Utils().showSnackBar('Success', 'Pending orders executed',
+                    SnackBarStatus.success));
+          }
+        }));
   }
 
   @override

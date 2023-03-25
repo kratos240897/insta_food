@@ -9,5 +9,5 @@ abstract class HomeRepository {
   Future<Either<Failure, List<Meal>>> getMealsFromLocal();
   Future<Either<Failure, void>> putMealsToLocal(List<Meal> meals);
   Future<Either<Failure, void>> putOrdersToLocal(MealsOrder order);
-  Future<Either<Failure, void>> executeOrders();
+  Future<Either<Failure, bool>> executeOrders();
 }

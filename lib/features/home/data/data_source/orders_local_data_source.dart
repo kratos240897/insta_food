@@ -7,7 +7,7 @@ import '../models/meals_order.dart';
 
 abstract class OrdersLocalDataSource {
   Future<Either<Failure, void>> addOrder(MealsOrder order);
-  Future<Either<Failure, void>> executeOrders();
+  Future<Either<Failure, bool>> executeOrders();
 }
 
 class OrdersLocalDataSourceImpl extends OrdersLocalDataSource {
@@ -25,16 +25,20 @@ class OrdersLocalDataSourceImpl extends OrdersLocalDataSource {
   }
 
   @override
-  Future<Either<Failure, void>> executeOrders() async {
+  Future<Either<Failure, bool>> executeOrders() async {
+    bool isOrdersExecuted = false;
     try {
       Boxes.getOrders().values.toList().forEach((element) {
-        element.isExecuted = true;
-        element.save();
+        if (element.isExecuted == false) {
+          element.isExecuted = true;
+          element.save();
+          isOrdersExecuted = true;
+        }
       });
-      return const Right(null);
+      return Right(isOrdersExecuted);
     } on HiveError {
       return const Left(
-          LocalDatabaseQueryFailure(message: 'Unable to add data to Database'));
+          LocalDatabaseQueryFailure(message: 'Unable to execute orders'));
     } on Exception {
       return const Left(UnknownFailure(message: 'Something went wrong'));
     }
