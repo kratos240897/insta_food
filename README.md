@@ -1,17 +1,24 @@
 # insta_food
 
-A new Flutter project.
+A Flutter project that fetches Meals from MealsDB API.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Just run "flutter pub get" and start running the application
 
-A few resources to get you started if this is your first Flutter project:
+## Packages Used
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+get - for state management, navigation and utils.
+dio - for Networking.
+loggy, flutter_loggy, flutter_loggy_dio - for Network Interceptor and Console Printer.
+google_fonts - for Fonts
+flutter_screenutil - for effective Smart Dimensions
+dartz - for Functional Programming
+equatable - for implementing Equality for Objects
+get_it - for Service Locator than can be accessed anywhere from the app
+hive, hive_flutter - for Local Database
+connectivity_plus - for monitoring and listening to Network Changes
+intl - for Date Formatting
+cached_network_image - for Caching Network Images
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 # insta_food
